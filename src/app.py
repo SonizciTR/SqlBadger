@@ -1,10 +1,11 @@
-import pyarrow
+import os
 
-from services.FileService import FileService
-from services.YamlHelper import YamlHelper
+from services.SqlRawReaderService import SqlRawReaderService
+from services.FileHelper import FileHelper
 
-config = YamlHelper.read_config()
+config_file = f"{os.getcwd()}/src/config.yaml"
+config = FileHelper.read_config(config_file)
 
-file_service = FileService(config)
+file_service = SqlRawReaderService(config)
 
-raw_sql_data = file_service.read_files()
+raw_sql_data = file_service.read_files_recursively()
