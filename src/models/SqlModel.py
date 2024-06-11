@@ -21,6 +21,10 @@ class SqlModel:
         self.raw_data = ""
         self.is_pure_sql = False
 
+        self.sql_ready = ""
+        self.priority = 99
+        self.suspend = False
+
         pass
 
     def set(self, fullPath : str, filename : str, file_extension : str) -> None:

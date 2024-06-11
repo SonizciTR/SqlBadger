@@ -6,6 +6,6 @@ class BaseTransformerService:
         tmp = data_str
 
         for key, val in change_group.items():
-            tmp = tmp.replace(key, val)
+            tmp = tmp.replace(f"@{key}", val)
 
         return tmp
