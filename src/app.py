@@ -13,6 +13,8 @@ def wrt(msg):
 
 ############
 
+print(os.getcwd())
+
 wrt("SqlBadger started.")
 config = FileHelper.read_config(config_file)
 wrt(f"Configs are read : {json.dumps(config.__dict__) }")

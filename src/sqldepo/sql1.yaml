@@ -1,0 +1,6 @@
+sql:
+    DROP TABLE TABLO1;
+
+    INSERT INTO TABLO1(
+      SELECT * FROM TABLO2
+    );
