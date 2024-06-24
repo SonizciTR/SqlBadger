@@ -1,0 +1,14 @@
+# (optional) what is the order number of the job. Small is highest, bigger is the least important
+priority: 1
+# (optional) this job will stopped
+suspend: false
+# (optional) key-value pairs that going to be replaced
+replace:
+  TARGET: TABLO_TARGET_1
+  SOURCE_SYSTEM: MYSYSTEMXX
+  SOURCE_SCHEMA: MYSCHEMAXX
+  SOURCE_TABLE: TABLO_SOURCE_1
+  PRIMARY_KEY: MYPRMKEYXX
+# (mandatory) which sql file is going to run
+sql_file: sqls/sqlmain.sql
+  

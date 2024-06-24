@@ -1,38 +1,39 @@
-import os
-
-from services.FileHelper import FileHelper
 
 class SqlModel:
-    EXTENSIONS = (".sql", ".yaml", ".yml")
+    
+    COMMANDS = ["THREAD"]
+    CMD_LINE_THREAD = f"--{COMMANDS[0]}"
 
-    def __init__(self, full_file_path : str = None) -> None:
-        self.set_default_values()
+    def __init__(self, raw_sql : str) -> None:
+        self.raw_sql = raw_sql
+        self.is_parallel = False
+        self.parallel_count = 1
+        self.sql_ready = []
 
-        filename, file_extension = os.path.splitext(full_file_path)
+        self.assign_values(raw_sql)
+    
+    def assign_values(self, raw_sql : str) -> None:
+        if not any(ext in raw_sql for ext in self.COMMANDS):
+            self.sql_ready.append(raw_sql)
+            return
 
-        if(full_file_path is not None): self.set(full_file_path, filename, file_extension.lower())
+        self.parallel_count = self.get_parallel_count(raw_sql)
+            
+        #By request, @Thread starts from 1 and two decimals 
+        for itm_thread in range(1, self.parallel_count + 1):
+            tmp_val = str(itm_thread).zfill(2)
+            tmp_sql = raw_sql.replace(f"@{self.COMMANDS[0]}", tmp_val)
 
+            self.sql_ready.append(tmp_sql)
+            pass
         pass
 
-    def set_default_values(self):
-        self.file_full_path = ""
-        self.file_name = ""
-        self.extension = ""
-        self.raw_data = ""
-        self.is_pure_sql = False
-
-        self.priority = 99
-        self.suspend = False
-        self.sub_sqls = []
-
-        pass
-
-    def set(self, fullPath : str, filename : str, file_extension : str) -> None:
-        if(file_extension == ".sql"): self.is_pure_sql = True
-
-        self.file_full_path = fullPath
-        self.file_name = filename
-        self.extension = file_extension
-        self.raw_data = FileHelper.read_file(fullPath)
-
-        pass
+    def get_parallel_count(self, text_raw_sql : str) -> int:
+        all_lines = text_raw_sql.splitlines()
+        for itm_sub_lines in all_lines: 
+            if not (self.CMD_LINE_THREAD  in itm_sub_lines): continue
+            tmp_cleaned = itm_sub_lines.replace(' ','')
+            tmp_cleaned = tmp_cleaned.replace(f"{self.CMD_LINE_THREAD}:",  "")
+            return int(tmp_cleaned)
+        
+        return 1

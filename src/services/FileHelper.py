@@ -11,8 +11,8 @@ class FileHelper:
     def read_file(file_name : str) -> str:
         data = ""
         with open(file_name,"r") as frd:
-            data = frd.read().replace('\n', ' ')
-            #data = frd.read()
+            #data = frd.read().replace('\n', ' ')
+            data = frd.read()
             frd.close()
 
         return data

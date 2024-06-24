@@ -1,7 +1,7 @@
 import os
 import json 
 
-from services.SqlRawReaderService import SqlRawReaderService
+from services.SqlContainerReaderService import SqlContainerReaderService
 from services.FileHelper import FileHelper
 from services.Transformers.SqlTransformerService import SqlTransformerService
 
@@ -20,7 +20,7 @@ wrt("SqlBadger started.")
 config = FileHelper.read_config(config_file)
 wrt(f"Configs are read : {json.dumps(config.__dict__) }")
 
-file_service = SqlRawReaderService(config)
+file_service = SqlContainerReaderService(config)
 
 raw_sql_data = file_service.read_files_recursively()
 wrt(f"Total Raw Sql Query count : {len(raw_sql_data)}")
