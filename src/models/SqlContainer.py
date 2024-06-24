@@ -41,6 +41,10 @@ class SqlContainer:
         self.raw_yaml = FileHelper.read_file(yaml_full_path)
         self.yaml_data = FileHelper.read_yaml_file(yaml_full_path)
 
+        tmp_priority = self.yaml_data.get("priority")
+        if(tmp_priority is not None):
+            self.priority = int(tmp_priority)
+
         tmp_base_dir = os.path.dirname(yaml_full_path)
         tmp_sql_rel_path = self.yaml_data.get("sql_file")
         full_sql_file = os.path.join(tmp_base_dir, tmp_sql_rel_path)
@@ -55,3 +59,27 @@ class SqlContainer:
         if(tmp_sql_path is None) or (len(tmp_sql_path) == 0):
             raise Exception(f"[{yaml_filename}] file's 'sql_file' property is missing.")
         pass
+
+    ### for sort:
+    def _is_valid_operand(self, other):
+        return (hasattr(other, "priority") and
+                hasattr(other, "sql_file"))
+    
+    def __lt__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        
+        return (self.priority < other.priority)
+    
+    def __gt__(self, other): 
+        return (self.priority > other.priority)
+  
+    def __le__(self, other): 
+        return (self.priority <= other.priority)
+  
+    def __ge__(self, other): 
+        return (self.priority >= other.priority)
+  
+    def __eq__(self, other): 
+        return (self.priority == other.priority)
+    ###

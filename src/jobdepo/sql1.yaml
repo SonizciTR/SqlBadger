@@ -1,5 +1,5 @@
 # (optional) what is the order number of the job. Small is highest, bigger is the least important
-priority: 1
+priority: 2
 # (optional) this job will stopped
 suspend: false
 # (optional) key-value pairs that going to be replaced

@@ -3,6 +3,7 @@ import json
 
 from services.SqlContainerReaderService import SqlContainerReaderService
 from services.FileHelper import FileHelper
+from services.SqlRunnerService import SqlRunnerService
 from services.Transformers.SqlTransformerService import SqlTransformerService
 
 ############
@@ -29,6 +30,10 @@ sql_shaper = SqlTransformerService(config)
 sql_ready = sql_shaper.reshape_sql(raw_sql_data)
 wrt(f"Total Ready Sql Query count : {len(sql_ready)}")
 
+wrt("Begining to run sqls.")
+sql_runner = SqlRunnerService(sql_ready)
+sql_runner.start()
+wrt("All sqls runned.")
 
 ############
 wrt("SqlBadger finished.")
