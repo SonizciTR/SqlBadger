@@ -1,1 +1,2 @@
 folder_source: sqldepo
+parallel_count: 10

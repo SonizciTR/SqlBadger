@@ -15,12 +15,12 @@ class SqlTransformerService(BaseTransformerService):
         sql_new_list = list[SqlModel]
         for itm in raw_sql_data:
             if(itm.is_pure_sql):
-                itm.sql_ready = itm.raw_data
+                itm.sub_sqls = self.split_sql(itm.raw_data)
             else:
                 itm = self.yamller.process(itm)
             
             if(itm.suspend): continue
-            
+
             sql_new_list.append(itm)
         
         return sql_new_list

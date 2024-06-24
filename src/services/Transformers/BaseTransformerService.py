@@ -9,3 +9,8 @@ class BaseTransformerService:
             tmp = tmp.replace(f"@{key}", val)
 
         return tmp
+    
+    def split_sql(self, sql_str : str) -> list[str]:
+        tmp_spltd = sql_str.split(';')
+        tmp_spltd = [f"{x};".strip() for x in tmp_spltd if x]
+        return tmp_spltd

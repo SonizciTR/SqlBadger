@@ -12,18 +12,19 @@ class FileHelper:
         data = ""
         with open(file_name,"r") as frd:
             data = frd.read().replace('\n', ' ')
+            #data = frd.read()
             frd.close()
 
         return data
 
     @staticmethod
-    def read_yaml(yaml_file : str) -> dict:
+    def read_yaml_file(yaml_file_path : str) -> dict:
         yaml_readed = None
-        with open(yaml_file, 'r') as file:
+        with open(yaml_file_path, 'r') as file:
             yaml_readed = yaml.safe_load(file)
         return yaml_readed
 
     @staticmethod
     def read_config(file_config) -> ConfigModel:
-        tmp_yaml = FileHelper.read_yaml(file_config)
+        tmp_yaml = FileHelper.read_yaml_file(file_config)
         return ConfigModel(tmp_yaml)

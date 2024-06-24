@@ -6,5 +6,6 @@ class ConfigModel(BaseService):
         if(raw_data is None): pass
         
         self.folder_source = self.safe_read(raw_data, "folder_source")
+        self.parallel_count = self.safe_read(raw_data, "parallel_count")
 
         pass
