@@ -1,5 +1,6 @@
 import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 from models.SqlContainer import SqlContainer
 from models.SqlModel import SqlModel
@@ -23,10 +24,17 @@ class JobCoordinatorService():
     def run_sql_package(self, sql_model_list : list[SqlModel]) -> bool:
         for itm_sql_package in sql_model_list:
             if(itm_sql_package.is_parallel):
+                with ThreadPoolExecutor(max_workers=itm_sql_package.parallel_count) as exe:
+                    result = exe.map(self.run_query_with_engine, itm_sql_package.sql_ready)
+                    print(result)
                 continue
 
             for itm_sql in itm_sql_package.sql_ready:
-                self.sql_engine.run_query(itm_sql)
+                self.run_query_with_engine(itm_sql)
 
         return True
+    
+    def run_query_with_engine(self, query_to_execute : str) -> int:
+        return self.sql_engine.run_query(query_to_execute)
+
 

@@ -41,6 +41,9 @@ class SqlContainer:
         self.raw_yaml = FileHelper.read_file(yaml_full_path)
         self.yaml_data = FileHelper.read_yaml_file(yaml_full_path)
 
+        tmp_suspend = self.yaml_data.get("suspend")
+        if(tmp_suspend is not None): self.suspend = bool(tmp_suspend)
+
         tmp_priority = self.yaml_data.get("priority")
         if(tmp_priority is not None):
             self.priority = int(tmp_priority)
