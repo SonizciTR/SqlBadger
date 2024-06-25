@@ -1,4 +1,4 @@
 priority: 2
-suspend: false
+suspend: true
 sql_file: sqls/sql2.sql
   

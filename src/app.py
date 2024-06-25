@@ -1,17 +1,23 @@
 import os
-import json 
+import json
+from datetime import datetime 
+from dotenv import load_dotenv
 
+from services.DremioService import DremioService
 from services.SqlContainerReaderService import SqlContainerReaderService
 from services.FileHelper import FileHelper
-from services.SqlRunnerService import SqlRunnerService
+from services.JobCoordinatorService import JobCoordinatorService
 from services.Transformers.SqlTransformerService import SqlTransformerService
 
 ############
+load_dotenv()
+
 config_file = f"config.yaml"
 ############
 
 def wrt(msg):
-    print(msg)
+    date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    print(f"[{date_time}] => {msg}")
 
 ############
 
@@ -31,8 +37,9 @@ sql_ready = sql_shaper.reshape_sql(raw_sql_data)
 wrt(f"Total Ready Sql Query count : {len(sql_ready)}")
 
 wrt("Begining to run sqls.")
-sql_runner = SqlRunnerService(sql_ready)
-sql_runner.start()
+query_engine = DremioService()
+job_runner = JobCoordinatorService(query_engine, sql_ready)
+job_runner.start()
 wrt("All sqls runned.")
 
 ############

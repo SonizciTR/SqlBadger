@@ -1,7 +1,7 @@
 # (optional) what is the order number of the job. Small is highest, bigger is the least important
 priority: 3
 # (optional) this job will stopped
-suspend: false
+suspend: true
 # (optional) key-value pairs that going to be replaced
 replace:
   TARGET: TABLO_TARGET_1
