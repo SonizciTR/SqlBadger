@@ -1,4 +1,3 @@
-import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -16,11 +15,12 @@ class JobCoordinatorService():
     def start(self) -> int:
         success_count = 0
         for itm_container in self.sqls_all:
+            wrt_screen(f"[{itm_container.file_name}] job is started.")
             tm_start = time.time()
             tmp_is_success = self.run_sql_package(itm_container)
             tm_end = time.time()
 
-            print(f"[{itm_container.file_name}] job is done(minutes) : {(tm_end- tm_start) / 60.0}")
+            wrt_screen(f"[{itm_container.file_name}] job is done(minutes) : {(tm_end- tm_start) / 60.0}.")
 
             if(tmp_is_success): success_count += 1
         

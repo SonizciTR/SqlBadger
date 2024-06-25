@@ -1,5 +1,6 @@
 import os
 import json
+import time
 
 from dotenv import load_dotenv
 from math import ceil
@@ -52,11 +53,13 @@ sql_ready = sql_shaper.reshape_sql(raw_sql_data)
 wrt_screen(f"Total Ready Sql Query count : {len(sql_ready)}")
 
 wrt_screen("Begining to run sqls.")
+tm_start = time.time()
 query_engine = DremioService()
 job_runner = JobCoordinatorService(query_engine, sql_ready)
 succ_count = job_runner.start()
+tm_end = time.time()
 wrt_screen(f"All jobs runned. Success : {succ_count} / {len(sql_ready)}.")
-wrt_screen("All sqls runned.")
+wrt_screen(f"All sqls runned. Total Time (minutes) : {(tm_end- tm_start) / 60.0}")
 
 ############
 wrt_screen("SqlBadger finished.")
