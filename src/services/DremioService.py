@@ -25,5 +25,5 @@ class DremioService():
         # Get the Query Output and write to pandas df
         flight_table = reader.read_all()
         print(type(flight_table))
-        df = flight_table.to_pandas()
-        return len(df.index)
+        tmp_df_result = flight_table.to_pandas()
+        return len(tmp_df_result.index)

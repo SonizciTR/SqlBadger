@@ -18,6 +18,7 @@ class SqlModel:
             return
 
         self.parallel_count = self.get_parallel_count(raw_sql)
+        if(self.parallel_count > 1): self.is_parallel = True
             
         #By request, @Thread starts from 1 and two decimals 
         for itm_thread in range(1, self.parallel_count + 1):
