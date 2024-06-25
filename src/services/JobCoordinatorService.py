@@ -24,9 +24,14 @@ class JobCoordinatorService():
     def run_sql_package(self, sql_model_list : list[SqlModel]) -> bool:
         for itm_sql_package in sql_model_list:
             if(itm_sql_package.is_parallel):
+                tmp_thread_result = []
+
                 with ThreadPoolExecutor(max_workers=itm_sql_package.parallel_count) as exe:
-                    result = exe.map(self.run_query_with_engine, itm_sql_package.sql_ready)
-                    print(result)
+                    tmp_thread_result = exe.map(self.run_query_with_engine, itm_sql_package.sql_ready)
+                
+                for r in tmp_thread_result:
+                    print(f"**** tmp_thread_result = {r.is_success} - {r.message}")
+
                 continue
 
             for itm_sql in itm_sql_package.sql_ready:
